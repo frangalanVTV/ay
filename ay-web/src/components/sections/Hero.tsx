@@ -2,13 +2,10 @@
 
 import { motion } from "framer-motion";
 import { LiveDemo } from "@/components/ui/LiveDemo";
-import { LiquidShaderBackground } from "@/components/ui/LiquidShaderBackground";
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-
-      <LiquidShaderBackground opacity={1.00} intensity={1.10} hue={24} />
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-transparent">
 
       {/* Desktop: horizontal white buffer — text left, shader right */}
       <div
