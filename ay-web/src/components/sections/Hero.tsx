@@ -10,12 +10,20 @@ export function Hero() {
 
       <LiquidShaderBackground opacity={1.00} intensity={1.10} hue={24} />
 
-      {/* Left-column white buffer so headline stays readable */}
+      {/* Desktop: horizontal white buffer — text left, shader right */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none hidden sm:block"
         style={{
           background:
             "linear-gradient(to right, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.30) 44%, rgba(255,255,255,0.0) 66%)",
+        }}
+      />
+      {/* Mobile: vertical white buffer — shader shows through more at bottom */}
+      <div
+        className="absolute inset-0 pointer-events-none block sm:hidden"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.42) 55%, rgba(255,255,255,0.10) 100%)",
         }}
       />
 

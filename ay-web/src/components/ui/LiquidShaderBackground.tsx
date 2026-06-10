@@ -156,15 +156,19 @@ export function LiquidShaderBackground({
     const container = containerRef.current;
     if (!container) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    if (window.innerWidth < 640) return;
 
-    const W   = container.clientWidth;
-    const H   = container.clientHeight;
-    const DPR = Math.min(window.devicePixelRatio, 2);
+    // offsetWidth/offsetHeight are more reliable than clientWidth on iOS at mount time
+    const W      = container.offsetWidth  || window.innerWidth;
+    const H      = container.offsetHeight || window.innerHeight;
+    const mobile = window.innerWidth < 768;
+    const DPR    = Math.min(window.devicePixelRatio, mobile ? 1.5 : 2);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: false });
+    const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "default" });
     renderer.setPixelRatio(DPR);
     renderer.setSize(W, H);
+    // iOS Safari: force a dedicated GPU compositing layer so the canvas is not
+    // clipped by the parent's overflow:hidden (a known WebKit rendering bug).
+    renderer.domElement.style.transform = "translateZ(0)";
     container.appendChild(renderer.domElement);
 
     const scene  = new THREE.Scene();
@@ -194,9 +198,10 @@ export function LiquidShaderBackground({
     tick();
 
     const onResize = () => {
-      const w   = container.clientWidth;
-      const h   = container.clientHeight;
-      const dpr = Math.min(window.devicePixelRatio, 2);
+      const w    = container.offsetWidth  || window.innerWidth;
+      const h    = container.offsetHeight || window.innerHeight;
+      const isMob = window.innerWidth < 768;
+      const dpr  = Math.min(window.devicePixelRatio, isMob ? 1.5 : 2);
       renderer.setPixelRatio(dpr);
       renderer.setSize(w, h);
       uniforms.u_resolution.value.set(w * dpr, h * dpr);
@@ -228,7 +233,7 @@ export function LiquidShaderBackground({
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 pointer-events-none hidden sm:block"
+      className="absolute inset-0 pointer-events-none"
       style={{ opacity }}
       aria-hidden="true"
     />
