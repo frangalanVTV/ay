@@ -19,8 +19,20 @@ export function ForWhom() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="para-quien" className="py-24 lg:py-32 bg-white">
-      <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
+    <section
+      id="para-quien"
+      className="py-24 lg:py-32 relative overflow-hidden"
+      style={{ background: "linear-gradient(135deg, #FDFCFF 0%, #F5F0FF 50%, #F0F5FF 100%)" }}
+    >
+      {/* Decorative color blob */}
+      <div
+        className="absolute top-0 right-0 w-2/3 h-full pointer-events-none"
+        style={{
+          background: "radial-gradient(ellipse at 85% 40%, rgba(139,92,246,0.10) 0%, transparent 65%)",
+        }}
+      />
+
+      <div className="relative max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
 
           <motion.div
@@ -29,7 +41,10 @@ export function ForWhom() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55 }}
           >
-            <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#b0b0ae] mb-4 block">
+            <span
+              className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-4 block"
+              style={{ color: "#7C3AED" }}
+            >
               Para quién
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0a0a] mb-6 leading-tight">
@@ -46,10 +61,30 @@ export function ForWhom() {
             {targets.map((target, i) => (
               <motion.span
                 key={target}
-                className="px-4 py-2 border border-[#e5e5e3] text-sm text-[#0a0a0a] rounded-full hover:bg-[#0a0a0a] hover:text-white hover:border-[#0a0a0a] transition-all duration-200 cursor-default"
+                className="px-4 py-2 text-sm rounded-full cursor-default"
+                style={{
+                  border: "1px solid rgba(124, 58, 237, 0.28)",
+                  color: "#4C1D95",
+                  background: "rgba(139, 92, 246, 0.07)",
+                  transition: "background 0.22s, color 0.22s, box-shadow 0.22s, border-color 0.22s",
+                }}
                 initial={{ opacity: 0, scale: 0.92 }}
                 animate={inView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ delay: 0.25 + i * 0.06, duration: 0.4 }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "linear-gradient(135deg, #6D28D9 0%, #2563EB 100%)";
+                  el.style.color = "white";
+                  el.style.borderColor = "transparent";
+                  el.style.boxShadow = "0 4px 20px rgba(109, 40, 217, 0.30)";
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget as HTMLElement;
+                  el.style.background = "rgba(139, 92, 246, 0.07)";
+                  el.style.color = "#4C1D95";
+                  el.style.borderColor = "rgba(124, 58, 237, 0.28)";
+                  el.style.boxShadow = "none";
+                }}
               >
                 {target}
               </motion.span>

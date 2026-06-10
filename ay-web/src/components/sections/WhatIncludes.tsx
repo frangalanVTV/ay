@@ -23,7 +23,11 @@ export function WhatIncludes() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="activaciones" className="py-24 lg:py-32 bg-white">
+    <section
+      id="activaciones"
+      className="py-24 lg:py-32"
+      style={{ background: "#F8F5FF" }}
+    >
       <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
@@ -34,7 +38,10 @@ export function WhatIncludes() {
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.55 }}
           >
-            <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#b0b0ae] mb-4 block">
+            <span
+              className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-4 block"
+              style={{ color: "#7C3AED" }}
+            >
               Activaciones
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0a0a] leading-tight mb-6">
@@ -50,12 +57,21 @@ export function WhatIncludes() {
             {items.map((item, i) => (
               <motion.div
                 key={item}
-                className="flex items-start gap-4 py-4 border-b border-[#f0f0ee]"
+                className="flex items-start gap-4 py-4"
+                style={{ borderBottom: "1px solid rgba(124, 58, 237, 0.10)" }}
                 initial={{ opacity: 0 }}
                 animate={inView ? { opacity: 1 } : {}}
                 transition={{ delay: 0.2 + i * 0.04, duration: 0.45 }}
               >
-                <span className="text-[10px] font-mono text-[#c0c0be] pt-0.5 flex-shrink-0">
+                <span
+                  className="text-[10px] font-mono pt-0.5 flex-shrink-0"
+                  style={{
+                    background: "linear-gradient(135deg, #6D28D9, #2563EB)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                  }}
+                >
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="text-sm text-[#0a0a0a] leading-snug">

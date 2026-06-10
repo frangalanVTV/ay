@@ -2,23 +2,24 @@
 
 import { motion } from "framer-motion";
 import { LiveDemo } from "@/components/ui/LiveDemo";
+import { LiquidShaderBackground } from "@/components/ui/LiquidShaderBackground";
 
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
 
-      {/* Very subtle background grid */}
+      <LiquidShaderBackground opacity={1.00} intensity={1.10} hue={24} />
+
+      {/* Left-column white buffer so headline stays readable */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage:
-            "linear-gradient(#f0f0ee 1px, transparent 1px), linear-gradient(90deg, #f0f0ee 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-          opacity: 0.4,
+          background:
+            "linear-gradient(to right, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.30) 44%, rgba(255,255,255,0.0) 66%)",
         }}
       />
 
-      <div className="relative max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16 w-full">
+      <div className="relative z-10 max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-16 lg:gap-24 items-center py-20 lg:py-28">
 
           {/* Left: copy */}
@@ -29,7 +30,7 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.1 }}
             >
-              <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#b0b0ae]">
+              <span className="text-[10px] font-semibold tracking-[0.2em] uppercase" style={{ color: "#7C3AED" }}>
                 Software interactivo para eventos
               </span>
             </motion.div>
@@ -40,7 +41,17 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.2 }}
             >
-              Recursos interactivos para eventos en vivo.
+              Recursos interactivos para eventos{" "}
+              <span
+                style={{
+                  background: "linear-gradient(135deg, #6D28D9 0%, #2563EB 70%, #06B6D4 100%)",
+                  WebkitBackgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  backgroundClip: "text",
+                }}
+              >
+                en vivo.
+              </span>
             </motion.h1>
 
             <motion.p
@@ -62,7 +73,14 @@ export function Hero() {
             >
               <a
                 href="#servicios"
-                className="inline-flex items-center justify-center h-12 px-8 bg-[#0a0a0a] text-white text-[13px] font-semibold tracking-wide hover:bg-[#2a2a2a] transition-colors rounded-sm"
+                className="inline-flex items-center justify-center h-12 px-8 text-white text-[13px] font-semibold tracking-wide rounded-sm transition-shadow"
+                style={{ background: "linear-gradient(135deg, #6D28D9 0%, #2563EB 100%)" }}
+                onMouseEnter={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 28px rgba(109,40,217,0.45)";
+                }}
+                onMouseLeave={e => {
+                  (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
+                }}
               >
                 Ver servicios
               </a>
@@ -94,7 +112,8 @@ export function Hero() {
           transition={{ delay: 1.4 }}
         >
           <motion.div
-            className="w-px h-10 bg-[#d0d0ce]"
+            className="w-px h-10"
+            style={{ background: "linear-gradient(to bottom, #7C3AED, transparent)" }}
             animate={{ scaleY: [1, 0.4, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
           />

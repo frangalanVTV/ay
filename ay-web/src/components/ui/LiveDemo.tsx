@@ -9,6 +9,12 @@ const options = [
   { label: "Bueno", value: 17 },
 ];
 
+const barGradients = [
+  "linear-gradient(to right, #6D28D9, #2563EB)",
+  "linear-gradient(to right, #2563EB, #06B6D4)",
+  "linear-gradient(to right, #7C3AED, #EC4899)",
+];
+
 const qrPattern = [
   1,1,1,0,1,0,
   1,0,1,0,0,1,
@@ -44,7 +50,13 @@ export function LiveDemo() {
         <AnimatePresence mode="wait">
           <motion.div
             key={Math.floor(count / 60)}
-            className="text-[1.6rem] font-black text-[#0a0a0a] leading-none"
+            className="text-[1.6rem] font-black leading-none"
+            style={{
+              background: "linear-gradient(135deg, #6D28D9, #2563EB)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 4 }}
@@ -61,9 +73,11 @@ export function LiveDemo() {
         {/* Card header */}
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
+            {/* Hot-pink live dot */}
             <motion.div
-              className="w-1.5 h-1.5 rounded-full bg-[#0a0a0a]"
-              animate={{ opacity: [1, 0.15, 1] }}
+              className="w-1.5 h-1.5 rounded-full"
+              style={{ background: "#EC4899" }}
+              animate={{ opacity: [1, 0.2, 1] }}
               transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
             />
             <span className="text-[10px] font-mono tracking-widest uppercase text-[#6b6b6b]">
@@ -88,7 +102,7 @@ export function LiveDemo() {
           ¿Cómo calificás el evento?
         </p>
 
-        {/* Bars */}
+        {/* Gradient bars */}
         <div className="space-y-4">
           {options.map((opt, i) => (
             <div key={opt.label}>
@@ -100,7 +114,8 @@ export function LiveDemo() {
               </div>
               <div className="h-[3px] bg-[#f0f0ee] rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-[#0a0a0a] rounded-full"
+                  className="h-full rounded-full"
+                  style={{ background: barGradients[i] }}
                   initial={{ width: "0%" }}
                   animate={{ width: `${opt.value}%` }}
                   transition={{
@@ -130,8 +145,9 @@ export function LiveDemo() {
             <div
               key={i}
               className={`aspect-square rounded-[1.5px] ${
-                cell ? "bg-[#0a0a0a]" : "bg-[#f0f0ee]"
+                cell ? "" : "bg-[#f0f0ee]"
               }`}
+              style={cell ? { background: "linear-gradient(135deg, #6D28D9, #2563EB)" } : {}}
             />
           ))}
         </div>

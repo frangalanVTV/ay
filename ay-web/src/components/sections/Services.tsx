@@ -44,21 +44,30 @@ function ServiceRow({
   return (
     <motion.div
       ref={ref}
-      className="group grid grid-cols-[2.5rem_1fr] lg:grid-cols-[5rem_1fr_minmax(0,480px)] items-start gap-x-8 lg:gap-x-16 py-7 sm:py-8 border-b border-[#e5e5e3] last:border-b-0 cursor-default"
+      className="group grid grid-cols-[2.5rem_1fr] lg:grid-cols-[5rem_1fr_minmax(0,480px)] items-start gap-x-8 lg:gap-x-16 py-7 sm:py-8 cursor-default"
+      style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}
       initial={{ opacity: 0, y: 18 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: index * 0.07 }}
     >
-      <span className="text-[11px] font-mono text-[#b0b0ae] pt-1">
+      <span
+        className="text-[11px] font-mono pt-1"
+        style={{ color: "#A78BFA" }}
+      >
         {service.num}
       </span>
-      <h3 className="text-lg sm:text-xl font-semibold text-[#0a0a0a] group-hover:opacity-40 transition-opacity leading-snug">
+      <h3
+        className="text-lg sm:text-xl font-semibold leading-snug transition-colors duration-200"
+        style={{ color: "rgba(255,255,255,0.92)" }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#A78BFA"; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.92)"; }}
+      >
         {service.title}
       </h3>
-      <p className="hidden lg:block text-sm text-[#6b6b6b] leading-relaxed col-start-3">
+      <p className="hidden lg:block text-sm leading-relaxed col-start-3" style={{ color: "rgba(255,255,255,0.45)" }}>
         {service.desc}
       </p>
-      <p className="lg:hidden text-sm text-[#6b6b6b] leading-relaxed mt-2 col-start-2">
+      <p className="lg:hidden text-sm leading-relaxed mt-2 col-start-2" style={{ color: "rgba(255,255,255,0.45)" }}>
         {service.desc}
       </p>
     </motion.div>
@@ -70,7 +79,7 @@ export function Services() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="servicios" className="py-24 lg:py-32 bg-[#f7f7f5]">
+    <section id="servicios" className="py-24 lg:py-32" style={{ background: "#0C0A1E" }}>
       <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
         <motion.div
           ref={ref}
@@ -79,15 +88,18 @@ export function Services() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55 }}
         >
-          <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#b0b0ae] mb-4 block">
+          <span
+            className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-4 block"
+            style={{ color: "#7C3AED" }}
+          >
             Servicios
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0a0a]">
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">
             Qué hacemos
           </h2>
         </motion.div>
 
-        <div className="border-t border-[#e5e5e3]">
+        <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}>
           {services.map((s, i) => (
             <ServiceRow key={s.num} service={s} index={i} />
           ))}

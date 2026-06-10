@@ -26,8 +26,25 @@ export function Process() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="proceso" className="py-24 lg:py-32 bg-[#f7f7f5]">
-      <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
+    <section
+      id="proceso"
+      className="py-24 lg:py-32 relative overflow-hidden"
+      style={{
+        background: "linear-gradient(135deg, #160B32 0%, #0D1840 50%, #070E28 100%)",
+      }}
+    >
+      {/* Ambient color blobs */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: [
+            "radial-gradient(ellipse 60% 70% at 15% 80%, rgba(236, 72, 153, 0.14) 0%, transparent 60%)",
+            "radial-gradient(ellipse 50% 60% at 85% 20%, rgba(99, 102, 241, 0.18) 0%, transparent 60%)",
+          ].join(", "),
+        }}
+      />
+
+      <div className="relative max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
 
         <motion.div
           ref={ref}
@@ -36,15 +53,18 @@ export function Process() {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55 }}
         >
-          <span className="text-[10px] font-semibold tracking-[0.2em] uppercase text-[#b0b0ae] mb-4 block">
+          <span
+            className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-4 block"
+            style={{ color: "rgba(244, 114, 182, 0.75)" }}
+          >
             Proceso
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-[#0a0a0a]">
+          <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-white">
             Cómo trabajamos
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 divide-y lg:divide-y-0 lg:divide-x divide-[#e5e5e3]">
+        <div className="grid grid-cols-1 lg:grid-cols-3">
           {steps.map((step, i) => (
             <motion.div
               key={step.num}
@@ -52,18 +72,23 @@ export function Process() {
               style={{
                 paddingLeft: i > 0 ? "3.5rem" : 0,
                 paddingRight: i < 2 ? "3.5rem" : 0,
+                borderTop: "1px solid rgba(255,255,255,0.10)",
+                borderLeft: i > 0 ? "1px solid rgba(255,255,255,0.10)" : "none",
               }}
               initial={{ opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.1 + i * 0.15, duration: 0.6 }}
             >
-              <span className="text-[11px] font-mono text-[#b0b0ae] block mb-8">
+              <span
+                className="text-[11px] font-mono block mb-8"
+                style={{ color: "#F472B6" }}
+              >
                 {step.num}
               </span>
-              <h3 className="text-2xl font-semibold text-[#0a0a0a] mb-4 leading-snug">
+              <h3 className="text-2xl font-semibold text-white mb-4 leading-snug">
                 {step.title}
               </h3>
-              <p className="text-sm text-[#6b6b6b] leading-relaxed">
+              <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
                 {step.desc}
               </p>
             </motion.div>
