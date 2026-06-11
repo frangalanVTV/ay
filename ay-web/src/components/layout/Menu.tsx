@@ -30,7 +30,8 @@ export function Menu({ open, onClose }: MenuProps) {
     <AnimatePresence>
       {open && (
         <motion.div
-          className="fixed inset-0 z-50 bg-white flex flex-col"
+          className="fixed inset-0 z-50 flex flex-col"
+        style={{ background: "#020a1a" }}
           initial={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
           animate={{ opacity: 1, clipPath: "inset(0 0 0% 0)" }}
           exit={{ opacity: 0, clipPath: "inset(0 0 100% 0)" }}
@@ -42,7 +43,7 @@ export function Menu({ open, onClose }: MenuProps) {
               <Logo />
               <button
                 onClick={onClose}
-                className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[#0a0a0a] hover:opacity-40 transition-opacity"
+                className="text-[11px] font-semibold tracking-[0.18em] uppercase text-white/55 hover:opacity-100 transition-opacity"
                 aria-label="Cerrar menú"
               >
                 Cerrar
@@ -52,11 +53,11 @@ export function Menu({ open, onClose }: MenuProps) {
 
           {/* Nav links */}
           <div className="flex-1 flex flex-col justify-center px-6 sm:px-10 lg:px-16 max-w-[1280px] mx-auto w-full">
-            <nav className="border-t border-[#e5e5e3]">
+            <nav className="border-t border-white/[0.08]">
               {links.map((link, i) => (
                 <motion.div
                   key={link.href}
-                  className="border-b border-[#e5e5e3]"
+                  className="border-b border-white/[0.08]"
                   initial={{ opacity: 0, x: -24 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{
@@ -68,7 +69,7 @@ export function Menu({ open, onClose }: MenuProps) {
                   <a
                     href={link.href}
                     onClick={onClose}
-                    className="block py-5 sm:py-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#0a0a0a] hover:opacity-25 transition-opacity"
+                    className="block py-5 sm:py-6 text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white hover:opacity-25 transition-opacity"
                   >
                     {link.label}
                   </a>
@@ -84,12 +85,12 @@ export function Menu({ open, onClose }: MenuProps) {
             >
               <a
                 href="mailto:hola@ay.digital"
-                className="text-sm text-[#6b6b6b] hover:text-[#0a0a0a] transition-colors"
+                className="text-sm text-white/40 hover:text-white/70 transition-colors"
               >
                 hola@ay.digital
               </a>
               <span className="text-[#e5e5e3]">—</span>
-              <span className="text-sm text-[#b0b0ae]">
+              <span className="text-sm text-white/25">
                 Recursos interactivos para eventos
               </span>
             </motion.div>

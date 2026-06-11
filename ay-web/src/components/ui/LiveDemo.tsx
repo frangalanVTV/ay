@@ -10,9 +10,9 @@ const options = [
 ];
 
 const barGradients = [
-  "linear-gradient(to right, #6D28D9, #2563EB)",
-  "linear-gradient(to right, #2563EB, #06B6D4)",
-  "linear-gradient(to right, #7C3AED, #EC4899)",
+  "linear-gradient(to right, #0369A1, #0EA5E9)",
+  "linear-gradient(to right, #0EA5E9, #38BDF8)",
+  "linear-gradient(to right, #0284C7, #67E8F9)",
 ];
 
 const qrPattern = [
@@ -52,7 +52,7 @@ export function LiveDemo() {
             key={Math.floor(count / 60)}
             className="text-[1.6rem] font-black leading-none"
             style={{
-              background: "linear-gradient(135deg, #6D28D9, #2563EB)",
+              background: "linear-gradient(135deg, #0369A1, #0EA5E9)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
@@ -76,7 +76,7 @@ export function LiveDemo() {
             {/* Hot-pink live dot */}
             <motion.div
               className="w-1.5 h-1.5 rounded-full"
-              style={{ background: "#EC4899" }}
+              style={{ background: "#0EA5E9" }}
               animate={{ opacity: [1, 0.2, 1] }}
               transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
             />
@@ -147,7 +147,7 @@ export function LiveDemo() {
               className={`aspect-square rounded-[1.5px] ${
                 cell ? "" : "bg-[#f0f0ee]"
               }`}
-              style={cell ? { background: "linear-gradient(135deg, #6D28D9, #2563EB)" } : {}}
+              style={cell ? { background: "linear-gradient(135deg, #0369A1, #0EA5E9)" } : {}}
             />
           ))}
         </div>

@@ -52,14 +52,14 @@ function ServiceRow({
     >
       <span
         className="text-[11px] font-mono pt-1"
-        style={{ color: "#A78BFA" }}
+        style={{ color: "#38BDF8" }}
       >
         {service.num}
       </span>
       <h3
         className="text-lg sm:text-xl font-semibold leading-snug transition-colors duration-200"
         style={{ color: "rgba(255,255,255,0.92)" }}
-        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#A78BFA"; }}
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.color = "#38BDF8"; }}
         onMouseLeave={e => { (e.currentTarget as HTMLElement).style.color = "rgba(255,255,255,0.92)"; }}
       >
         {service.title}
@@ -79,7 +79,7 @@ export function Services() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section id="servicios" className="py-24 lg:py-32" style={{ background: "#0C0A1E" }}>
+    <section id="servicios" className="py-24 lg:py-32" style={{ background: "#060F1A" }}>
       <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
         <motion.div
           ref={ref}
@@ -90,7 +90,7 @@ export function Services() {
         >
           <span
             className="text-[10px] font-semibold tracking-[0.2em] uppercase mb-4 block"
-            style={{ color: "#7C3AED" }}
+            style={{ color: "#0EA5E9" }}
           >
             Servicios
           </span>

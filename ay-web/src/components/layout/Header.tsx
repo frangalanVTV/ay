@@ -9,7 +9,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30);
+    const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -17,21 +17,35 @@ export function Header() {
   return (
     <>
       <header
-        className="fixed top-0 left-0 right-0 z-40 transition-all duration-300"
+        className="fixed top-0 left-0 right-0 z-40 transition-all duration-500"
         style={{
-          backgroundColor: scrolled ? "rgba(255,255,255,0.95)" : "transparent",
-          backdropFilter: scrolled ? "blur(8px)" : "none",
-          borderBottom: scrolled ? "1px solid #e5e5e3" : "1px solid transparent",
+          backgroundColor: scrolled ? "rgba(1, 11, 31, 0.82)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px)" : "none",
+          borderBottom: scrolled ? "1px solid rgba(255,255,255,0.05)" : "1px solid transparent",
         }}
       >
         <div className="max-w-[1280px] mx-auto px-6 sm:px-10 lg:px-16">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            <a href="#" aria-label="Ay! inicio">
+            {/* Logo text: opacity starts at 0, CosmicCanvas drives it via scroll */}
+            <a
+              id="header-logo"
+              href="#"
+              aria-label="Ay! inicio"
+              style={{
+                opacity: 0,
+                transition: "opacity 0.5s ease",
+                color: "rgba(255,255,255,0.85)",
+              }}
+            >
               <Logo />
             </a>
+
             <button
               onClick={() => setMenuOpen(true)}
-              className="text-[11px] font-semibold tracking-[0.18em] uppercase text-[#0a0a0a] hover:opacity-40 transition-opacity"
+              className="text-[11px] font-semibold tracking-[0.18em] uppercase transition-colors"
+              style={{ color: "rgba(255,255,255,0.55)" }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.95)"; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = "rgba(255,255,255,0.55)"; }}
               aria-label="Abrir menú"
             >
               Menú

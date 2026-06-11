@@ -1,30 +1,23 @@
+import Image from "next/image";
+
 interface LogoProps {
   className?: string;
   size?: "sm" | "md" | "lg";
 }
 
-const sizes = {
-  sm: { fontSize: "1.5rem", strokeWidth: "1.2px" },
-  md: { fontSize: "2rem", strokeWidth: "1.5px" },
-  lg: { fontSize: "4rem", strokeWidth: "2.5px" },
-};
+const heights = { sm: 24, md: 32, lg: 56 };
 
 export function Logo({ className = "", size = "md" }: LogoProps) {
-  const { fontSize, strokeWidth } = sizes[size];
+  const h = heights[size];
   return (
-    <span
-      className={`font-black tracking-tighter leading-none select-none ${className}`}
-      style={{
-        fontSize,
-        // WebkitTextFillColor controls the visible fill; color stays as the
-        // source for currentColor so the stroke inherits context correctly.
-        WebkitTextStroke: `${strokeWidth} currentColor`,
-        WebkitTextFillColor: "transparent",
-        display: "inline-block",
-      }}
-      aria-label="Ay!"
-    >
-      Ay!
-    </span>
+    <Image
+      src="/3D/AY_white.png"
+      alt="Ay!"
+      width={1990}
+      height={946}
+      style={{ height: h, width: "auto" }}
+      className={className}
+      priority
+    />
   );
 }

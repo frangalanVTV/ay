@@ -2,13 +2,7 @@
 
 @theme {
   --font-sans: var(--font-inter), 'Inter', system-ui, -apple-system, sans-serif;
-
-  --color-ink: #0a0a0a;
-  --color-muted: #6b6b6b;
-  --color-subtle: #b0b0ae;
-  --color-surface: #f7f7f5;
-  --color-line: #e5e5e3;
-  --color-bg: #ffffff;
+  --color-bg: #010b1f;
 }
 
 html {
@@ -16,8 +10,8 @@ html {
 }
 
 body {
-  background-color: var(--color-bg);
-  color: var(--color-ink);
+  background-color: #010b1f;
+  color: #ffffff;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -28,17 +22,17 @@ body {
 }
 
 ::selection {
-  background: #0a0a0a;
+  background: rgba(255, 255, 255, 0.18);
   color: #ffffff;
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #f7f7f5;
+  background: #010b1f;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d0d0ce;
+  background: rgba(255, 255, 255, 0.12);
   border-radius: 10px;
 }

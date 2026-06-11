@@ -110,15 +110,15 @@ const fragmentShader = /* glsl */ `
     v  = v / (1.0 + v);
     v  = smoothstep(0.12, 0.92, v);
 
-    vec3 skyLight  = vec3(0.74, 0.88, 1.00);
-    vec3 skyMid    = vec3(0.42, 0.70, 0.96);
-    vec3 blueDeep  = vec3(0.10, 0.32, 0.68);
-    vec3 warmWhite = vec3(0.96, 0.98, 0.93);
+    vec3 skyLight  = vec3(0.86, 0.96, 1.00);
+    vec3 skyMid    = vec3(0.52, 0.84, 1.00);
+    vec3 blueDeep  = vec3(0.22, 0.58, 0.92);
+    vec3 coolWhite = vec3(0.97, 0.99, 1.00);
 
     vec3 col = mix(skyLight, skyMid,    smoothstep(0.12, 0.58, v));
-         col = mix(col,      blueDeep,  smoothstep(0.52, 0.95, v) * 0.55);
-         col = mix(col,      warmWhite, smoothstep(0.68, 1.00, v) * 0.38);
-         col = mix(vec3(0.65, 0.85, 1.0), col, 0.88);
+         col = mix(col,      blueDeep,  smoothstep(0.52, 0.95, v) * 0.40);
+         col = mix(col,      coolWhite, smoothstep(0.66, 1.00, v) * 0.55);
+         col = mix(vec3(0.80, 0.94, 1.0), col, 0.88);
 
     // ── saturation boost via intensity ─────────────────────────────────────────
     float luma = dot(col, vec3(0.299, 0.587, 0.114));
