@@ -30,16 +30,6 @@ const starFrag = /* glsl */ `
   }
 `;
 
-// ── Floating signo data ─────────────────────────────────────────────────────
-
-type FloatingSigno = {
-  group: THREE.Group;
-  baseY: number;
-  speed: number;   // world-units rise per viewport-height scrolled
-  phase: number;
-  dir: number;     // rotation direction
-};
-
 // ── Shooting star data ──────────────────────────────────────────────────────
 
 type ShootingStar = {
@@ -153,11 +143,9 @@ export function CosmicCanvas() {
           }
         });
 
-        // Center and scale to fill ~65% of viewport
+        // GLB pivot is Blender world origin — don't move the model, trust the export.
         const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
         const size = box.getSize(new THREE.Vector3());
-        model.position.sub(center);
 
         const halfH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
         const halfW = halfH * camera.aspect;
@@ -176,58 +164,57 @@ export function CosmicCanvas() {
       (err) => console.warn("GLB load error:", err),
     );
 
-    // ── Floating "!" signs ───────────────────────────────────────────────────
-    // signo.glb = isolated "!" mark, native bbox ~9.9 × 2.0 × 8.3 units
-    const SIGNO_CONFIGS: Omit<FloatingSigno, "group">[] = [
-      { baseY: -5.0, speed: 2.8, phase: 0.0, dir:  1 },
-      { baseY: -7.5, speed: 3.6, phase: 1.4, dir: -1 },
-      { baseY:-10.5, speed: 2.2, phase: 2.7, dir:  1 },
-      { baseY: -4.0, speed: 1.9, phase: 0.9, dir: -1 },
-      { baseY:-13.0, speed: 4.0, phase: 3.2, dir:  1 },
-      { baseY: -6.5, speed: 2.6, phase: 1.9, dir: -1 },
-      { baseY: -9.0, speed: 3.2, phase: 0.5, dir:  1 },
-    ];
-    const SIGNO_X   = [-4.5,  3.8, -2.8,  5.2, -5.5,  2.0, -1.2];
-    const SIGNO_Z   = [ -3,   -4,   -3,   -5,   -4,   -3,   -5 ];
-    const SIGNO_SCL = [0.22, 0.28, 0.18, 0.32, 0.20, 0.25, 0.16];
+    // ── Process signo — one large "!" tied to the process section scroll ───────
+    // Sits right side (desktop) / behind text (mobile), spins 360° per step change.
+    const signoGroup = new THREE.Group();
+    signoGroup.visible = false; // hidden until loaded + section in view
+    scene.add(signoGroup);
 
-    const floatingSignos: FloatingSigno[] = [];
     const signoMat = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color(0xffffff),
-      emissive: new THREE.Color(0x0a1030),
-      metalness: 0.08,
-      roughness: 0.18,
+      emissive: new THREE.Color(0x080d28),
+      metalness: 0.10,
+      roughness: 0.12,
       transparent: true,
-      opacity: 0.72,
-      iridescence: 0.9,
-      iridescenceIOR: 1.75,
-      iridescenceThicknessRange: [100, 550] as [number, number],
-      clearcoat: 0.7,
-      clearcoatRoughness: 0.1,
+      opacity: 0.0, // driven by section visibility
+      iridescence: 1.0,
+      iridescenceIOR: 1.85,
+      iridescenceThicknessRange: [120, 620] as [number, number],
+      clearcoat: 0.85,
+      clearcoatRoughness: 0.07,
       side: THREE.DoubleSide,
+      depthWrite: false,
     });
 
     const signoLoader = new GLTFLoader();
     signoLoader.load(
       "/3D/signo.glb",
       (gltf) => {
-        // Center the template mesh around its bbox
-        const template = gltf.scene;
-        const bbox = new THREE.Box3().setFromObject(template);
-        const bCenter = bbox.getCenter(new THREE.Vector3());
-        template.position.sub(bCenter);
-
-        SIGNO_CONFIGS.slice(0, SIGNO_X.length).forEach((cfg, i) => {
-          const clone = template.clone(true);
-          clone.traverse((child) => {
-            const mesh = child as THREE.Mesh;
-            if (mesh.isMesh) mesh.material = signoMat;
-          });
-          clone.scale.setScalar(SIGNO_SCL[i]);
-          clone.position.set(SIGNO_X[i], cfg.baseY, SIGNO_Z[i]);
-          scene.add(clone);
-          floatingSignos.push({ group: clone, ...cfg });
+        const mesh = gltf.scene;
+        mesh.traverse((child) => {
+          const m = child as THREE.Mesh;
+          if (m.isMesh) m.material = signoMat;
         });
+
+        // GLB pivot is Blender world origin — don't move the mesh, trust the export.
+        const bbox = new THREE.Box3().setFromObject(mesh);
+        const bSize = bbox.getSize(new THREE.Vector3());
+
+        // Scale: fill ~42% of viewport width on desktop, ~78% on mobile
+        const halfHCam = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+        const halfWCam = halfHCam * camera.aspect;
+        const fill = mobile ? 0.78 : 0.42;
+        const ss = (halfWCam * 2 * fill) / bSize.x;
+        mesh.scale.setScalar(ss);
+
+        // Position: right side on desktop, centered on mobile (at z=-1.5 so it's behind HTML)
+        signoGroup.position.set(
+          mobile ? 0 : halfWCam * 0.54,
+          0,
+          mobile ? -1.5 : -0.8,
+        );
+        signoGroup.visible = true;
+        signoGroup.add(mesh);
       },
       undefined,
       (err) => console.warn("signo.glb load error:", err),
@@ -446,13 +433,29 @@ export function CosmicCanvas() {
         pos.needsUpdate = true;
       }
 
-      // Floating "!" signs — rise with scroll, gentle bob + slow spin
-      if (floatingSignos.length > 0) {
-        const scrollDrive = rawScrollY / window.innerHeight;
-        for (const si of floatingSignos) {
-          si.group.position.y = si.baseY + scrollDrive * si.speed + Math.sin(elapsed * 0.45 + si.phase) * 0.12;
-          si.group.rotation.y = elapsed * 0.18 * si.dir + si.phase;
-          si.group.rotation.x = Math.sin(elapsed * 0.22 + si.phase) * 0.12;
+      // Process signo — scroll-driven 360° spin + fade in/out with section
+      if (signoGroup.visible) {
+        const processoEl = document.getElementById("proceso");
+        if (processoEl) {
+          const rect      = processoEl.getBoundingClientRect();
+          const sectionH  = processoEl.offsetHeight;
+          const viewH     = window.innerHeight;
+          const scrollRange = Math.max(1, sectionH - viewH);
+
+          // 0-1 progress through the sticky scroll range
+          const proc = Math.max(0, Math.min(1, -rect.top / scrollRange));
+
+          // 3 full rotations: each step transition = one 360° spin
+          signoGroup.rotation.y = proc * Math.PI * 6;
+          // Subtle X tilt echoes the phase of each spin
+          signoGroup.rotation.x = Math.sin(proc * Math.PI * 3) * 0.22;
+          // Gentle bob
+          signoGroup.position.y = Math.sin(elapsed * 0.55) * 0.06;
+
+          // Opacity: fade in as section enters viewport, fade out as it exits
+          const entryFade = THREE.MathUtils.clamp((viewH - rect.top)  / (viewH * 0.35), 0, 1);
+          const exitFade  = THREE.MathUtils.clamp(rect.bottom          / (viewH * 0.35), 0, 1);
+          signoMat.opacity = entryFade * exitFade * (mobile ? 0.18 : 0.82);
         }
       }
 
