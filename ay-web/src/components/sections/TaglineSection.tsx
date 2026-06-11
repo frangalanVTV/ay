@@ -12,7 +12,7 @@ export function TaglineSection() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden px-8 lg:px-20"
+      className="relative py-20 sm:py-28 flex flex-col justify-center overflow-hidden px-8 lg:px-20"
       style={{ background: "transparent" }}
     >
       {/* Faint atmospheric glow */}
