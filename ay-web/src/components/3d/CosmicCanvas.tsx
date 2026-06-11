@@ -179,17 +179,17 @@ export function CosmicCanvas() {
     // ── Floating "!" signs ───────────────────────────────────────────────────
     // signo.glb = isolated "!" mark, native bbox ~9.9 × 2.0 × 8.3 units
     const SIGNO_CONFIGS: Omit<FloatingSigno, "group">[] = [
-      { baseY: -5.5, speed: 2.6, phase: 0.0, dir:  1 },
-      { baseY: -8.0, speed: 3.4, phase: 1.4, dir: -1 },
-      { baseY:-11.0, speed: 2.0, phase: 2.7, dir:  1 },
-      { baseY: -4.5, speed: 1.7, phase: 0.9, dir: -1 },
-      { baseY:-13.5, speed: 3.8, phase: 3.2, dir:  1 },
-      { baseY: -7.0, speed: 2.3, phase: 1.9, dir: -1 },
+      { baseY: -5.0, speed: 2.8, phase: 0.0, dir:  1 },
+      { baseY: -7.5, speed: 3.6, phase: 1.4, dir: -1 },
+      { baseY:-10.5, speed: 2.2, phase: 2.7, dir:  1 },
+      { baseY: -4.0, speed: 1.9, phase: 0.9, dir: -1 },
+      { baseY:-13.0, speed: 4.0, phase: 3.2, dir:  1 },
+      { baseY: -6.5, speed: 2.6, phase: 1.9, dir: -1 },
+      { baseY: -9.0, speed: 3.2, phase: 0.5, dir:  1 },
     ];
-    // Spread signs across the horizontal field (placed at varying X and slightly behind scene)
-    const SIGNO_X   = [-4.2,  3.6, -2.5,  5.0, -5.8,  1.8];
-    const SIGNO_Z   = [ -3,   -4,   -3,   -5,   -4,   -3  ];
-    const SIGNO_SCL = [0.12, 0.16, 0.10, 0.18, 0.11, 0.14];
+    const SIGNO_X   = [-4.5,  3.8, -2.8,  5.2, -5.5,  2.0, -1.2];
+    const SIGNO_Z   = [ -3,   -4,   -3,   -5,   -4,   -3,   -5 ];
+    const SIGNO_SCL = [0.22, 0.28, 0.18, 0.32, 0.20, 0.25, 0.16];
 
     const floatingSignos: FloatingSigno[] = [];
     const signoMat = new THREE.MeshPhysicalMaterial({
@@ -217,7 +217,7 @@ export function CosmicCanvas() {
         const bCenter = bbox.getCenter(new THREE.Vector3());
         template.position.sub(bCenter);
 
-        SIGNO_CONFIGS.forEach((cfg, i) => {
+        SIGNO_CONFIGS.slice(0, SIGNO_X.length).forEach((cfg, i) => {
           const clone = template.clone(true);
           clone.traverse((child) => {
             const mesh = child as THREE.Mesh;

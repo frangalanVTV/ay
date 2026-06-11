@@ -7,46 +7,42 @@ const LINES = ["AY! EL", "UNIVERSO", "ES EL LÍMITE."];
 
 export function TaglineSection() {
   const ref = useRef<HTMLElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-15%" });
+  const inView = useInView(ref, { once: true, margin: "-10%" });
 
   return (
     <section
       ref={ref}
-      className="relative flex flex-col justify-center overflow-hidden px-8 lg:px-20 py-24 sm:min-h-screen"
+      className="relative min-h-screen flex flex-col justify-center overflow-hidden px-8 lg:px-20"
       style={{ background: "transparent" }}
     >
+      {/* Faint atmospheric glow */}
       <div
-        className="absolute top-0 left-0 right-0 h-px pointer-events-none"
-        style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent)" }}
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: [
+            "radial-gradient(ellipse 70% 60% at 100% 40%, rgba(99,102,241,0.07) 0%, transparent 60%)",
+            "radial-gradient(ellipse 50% 40% at 0% 80%,  rgba(14,165,233,0.06) 0%, transparent 60%)",
+          ].join(", "),
+        }}
       />
 
       <div className="max-w-[1280px] mx-auto w-full">
-        <motion.span
-          className="block text-[10px] font-semibold tracking-[0.28em] uppercase mb-8 sm:mb-10"
-          style={{ color: "rgba(255,255,255,0.22)" }}
-          initial={{ opacity: 0, y: 12 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.1 }}
-        >
-          Ay! — Interactive Software
-        </motion.span>
-
-        {/* Three lines — each in its own overflow-hidden so spacing is identical */}
+        {/* Headline — each line is its own overflow-hidden clip so spacing is pixel-identical */}
         <div className="mb-10 sm:mb-14">
           {LINES.map((line, i) => (
             <div key={line} className="overflow-hidden">
               <motion.h2
-                className="font-black text-white"
+                className="font-black text-white block"
                 style={{
-                  fontSize: "clamp(2.4rem, 7.8vw, 10rem)",
-                  lineHeight: 0.92,
-                  letterSpacing: "-0.03em",
+                  fontSize: "clamp(2.6rem, 9.5vw, 13rem)",
+                  lineHeight: 0.90,
+                  letterSpacing: "-0.035em",
                 }}
-                initial={{ y: "110%" }}
+                initial={{ y: "108%" }}
                 animate={inView ? { y: "0%" } : {}}
                 transition={{
-                  duration: 0.85,
-                  delay: 0.2 + i * 0.13,
+                  duration: 1.0,
+                  delay: 0.1 + i * 0.14,
                   ease: [0.16, 1, 0.3, 1],
                 }}
               >
@@ -57,23 +53,19 @@ export function TaglineSection() {
         </div>
 
         <motion.p
-          className="font-light tracking-wide"
+          className="font-light"
           style={{
-            fontSize: "clamp(1rem, 2.2vw, 2rem)",
-            color: "rgba(255,255,255,0.40)",
+            fontSize: "clamp(1rem, 2vw, 1.8rem)",
+            color: "rgba(255,255,255,0.38)",
+            letterSpacing: "0.04em",
           }}
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.62 }}
+          transition={{ duration: 0.8, delay: 0.55 }}
         >
           Software interactivo para eventos.
         </motion.p>
       </div>
-
-      <div
-        className="absolute bottom-0 left-0 right-0 h-px pointer-events-none"
-        style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent)" }}
-      />
     </section>
   );
 }
